@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/app/common/constants/app_theme_data.dart';
+import 'package:movie_app/app/common/functions/app_functions.dart';
+import 'package:movie_app/app/common/get_it/get_it.dart';
+import 'package:movie_app/app/common/router/app_router.dart';
+import 'package:movie_app/app/features/presentation/login/bloc/login_bloc.dart';
+import 'package:movie_app/core/keys/app_keys.dart';
+
+Future<void> main() async {
+  await AppFunctions.instance.init();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final appRouter = getIt.get<AppRouter>();
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => getIt.get<LoginBloc>())],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        scaffoldMessengerKey: AppKeys.scaffoldMessengerKey,
+        title: 'Movie App',
+        routerConfig: appRouter.config(),
+        theme: AppThemeData.themeData,
+      ),
+    );
+  }
+}
