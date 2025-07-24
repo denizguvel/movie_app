@@ -2,6 +2,10 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:movie_app/app/common/router/app_router.dart';
+import 'package:movie_app/app/features/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:movie_app/app/features/data/datasources/local/auth_local_datasource.dart';
+import 'package:movie_app/app/features/data/repositories/auth_repository.dart';
+import 'package:movie_app/app/features/presentation/signup/bloc/signup_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -12,7 +16,7 @@ final class ServiceLocator {
     _setupRouter();
     _setupDataSource();
     _setupRepository();
-    // _setupCubit();
+    _setupBloc();
   }
 
   /// **Router Dependency**
@@ -22,42 +26,30 @@ final class ServiceLocator {
 
   /// **DataSource Dependency**
   void _setupDataSource() {
-    // getIt
-    //   ..registerLazySingleton<AccountRemoteDatasource>(
-    //     () => AccountRemoteDatasourceImpl(),
-    //   )
-    //   ..registerLazySingleton<AuthRemoteDatasource>(
-    //     () => AuthRemoteDatasourceImpl(),
-    //   );
+    getIt.registerLazySingleton<AuthRemoteDatasource>(
+      () => AuthRemoteDatasourceImpl(),
+    );
+    getIt.registerLazySingleton<AuthLocalDatasource>(
+      () => AuthLocalDatasourceImpl(),
+    );
   }
 
   /// **Repository Dependency**
   void _setupRepository() {
-    // getIt
-    //   ..registerLazySingleton<AuthRepository>(
-    //     () => AuthRepositoryImpl(
-    //       remoteDatasource: getIt(),
-    //       localDatasource: getIt(),
-    //     ),
-    //   )
-    //   ..registerLazySingleton<ContentRepository>(
-    //     () => ContentRepositoryImpl(
-    //       remoteDatasource: getIt(),
-    //     ),
-    //   );
-
+    getIt.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(
+        remoteDatasource: getIt(),
+        localDatasource: getIt(),
+      ),
+    );
   }
 
-  /// **BLoC, Cubit and ViewModel Dependency**
-  // void _setupCubit() {
-  //   getIt
-  //     ..registerLazySingleton<OnboardingCubit>(
-  //       () => OnboardingCubit(),
-  //     )
-  //     ..registerLazySingleton<MainCubit>(
-  //       () => MainCubit(),
-  //     )
-  // }
+  /// **BLoC Dependency**
+  void _setupBloc() {
+    getIt.registerFactory<SignupBloc>(
+      () => SignupBloc(authRepository: getIt()),
+    );
+  }
 
   /// **Resets dependencies for Test and Debug**
   Future<void> reset() async {

@@ -15,4 +15,14 @@ class AppStrings {
   static const String loginMessage = 'Zaten bir hesabın var mı?';
   static const String privacyPolicy =
       'Kullanıcı sözleşmesini okudum ve kabul ediyorum. Bu sözleşmeyi okuyarak devam ediniz lütfen.';
+  static const String loginScreenWelcome = 'Tempus varius a vitae interdum id\ntortor elementum tristique eleifend at.';
+  static const String signupWelcome = 'Hoşgeldiniz';
+  static const String signupScreenWelcome = 'Tempus varius a vitae interdum id tortor elementum tristique eleifend at.';
+  static const String passwordAgain = 'Şifre Tekrar';
+  static const String alreadyHaveAccount = 'Zaten bir hesabın var mı? ';
+  static const String loginButtonExclamation = 'Giriş Yap!';
+  static const String privacyPolicyPrefix = 'Kullanıcı sözleşmesini ';
+  static const String privacyPolicyBold = 'okudum ve kabul ediyorum.';
+  static const String privacyPolicySuffix = '\nBu sözleşmeyi okuyarak devam ediniz lütfen.';
+  static const String signupButtonExclamation = 'Kayıt Ol!';
 }

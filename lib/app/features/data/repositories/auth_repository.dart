@@ -1,17 +1,48 @@
+import 'package:movie_app/app/features/data/datasources/local/auth_local_datasource.dart';
+import 'package:movie_app/app/features/data/models/auth/signup_model.dart';
+import 'package:movie_app/core/logger/app_logger.dart';
+import 'package:movie_app/core/result/result.dart';
+
 import '../datasources/remote/auth_remote_datasource.dart';
-import '../models/auth/login_model.dart';
 
-class AuthRepository {
-  final AuthRemoteDatasource remoteDatasource;
-  AuthRepository({required this.remoteDatasource});
+abstract class AuthRepository {
+  Future<DataResult<String>> signup({required SignupModel signupModel});
+}
 
-  Future<bool> login({required String email, required String password}) async {
-    final response = await remoteDatasource.login(email: email, password: password);
-    // Burada response'dan başarılı olup olmadığını kontrol edebilirsin
-    if (response.statusCode == 200) {
-      // Gerekirse response'dan token veya user bilgisi dönebilirsin
-      return true;
+class AuthRepositoryImpl implements AuthRepository {
+  final AuthRemoteDatasource _remoteDatasource;
+  final AuthLocalDatasource _localDatasource;
+
+  AuthRepositoryImpl({
+    required AuthRemoteDatasource remoteDatasource,
+    required AuthLocalDatasource localDatasource,
+  }) : _remoteDatasource = remoteDatasource,
+       _localDatasource = localDatasource;
+
+  @override
+  Future<DataResult<String>> signup({required SignupModel signupModel}) async {
+    var apiResponseModel = await _remoteDatasource.signup(
+      signupModel: signupModel,
+    );
+    if (!apiResponseModel.isSuccess) {
+      AppLogger.instance.error(
+        "$runtimeType signup() ${apiResponseModel.error?.message ?? ""} Status code: ${apiResponseModel.error?.statusCode}",
+      );
+      return ErrorDataResult(
+        message:
+            "${apiResponseModel.error?.message ?? ""} ${apiResponseModel.error?.statusCode ?? ""}",
+      );
     }
-    return false;
+    if (apiResponseModel.data == null) {
+      AppLogger.instance.error("$runtimeType register() Null Data");
+      return ErrorDataResult(
+        message:
+            "${apiResponseModel.error?.message ?? ""} ${apiResponseModel.error?.statusCode ?? ""}",
+      );
+    }
+    await _localDatasource.saveToken(apiResponseModel.data!);
+    await _localDatasource.login();
+    AppLogger.instance.log("$runtimeType register() SUCCESS");
+    return SuccessDataResult(data: apiResponseModel.data!);
   }
 }

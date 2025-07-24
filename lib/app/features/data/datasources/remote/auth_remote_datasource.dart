@@ -1,18 +1,30 @@
-import 'package:dio/dio.dart';
-import '../../models/auth/login_model.dart';
+import 'package:movie_app/app/common/config/config.dart';
+import 'package:movie_app/app/features/data/models/auth/signup_model.dart';
+import 'package:movie_app/core/dio_manager/api_response_model.dart';
+import 'package:movie_app/core/dio_manager/dio_manager.dart';
 
-class AuthRemoteDatasource {
-  final Dio dio;
-  AuthRemoteDatasource({required this.dio});
+abstract class AuthRemoteDatasource {
+  Future<ApiResponseModel<String>> signup({required SignupModel signupModel});
+}
 
-  Future<Response> login({required String email, required String password}) async {
-    final response = await dio.post(
-      'https://caseapi.servicelabs.tech/user/login',
-      data: {
-        'email': email,
-        'password': password,
+class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
+  final DioApiManager _apiManager = DioApiManager(baseUrl: Config.apiBaseUrl);
+
+  @override
+  Future<ApiResponseModel<String>> signup({
+    required SignupModel signupModel,
+  }) async {
+    var apiResponseModel = await _apiManager.post(
+      '/user/register',
+      data: signupModel.toMap(),
+      converter: (data) {
+        final token = data['data']?['token'];
+        if (token == null) {
+          throw Exception("API response does not contain 'token': $data");
+        }
+        return token as String;
       },
     );
-    return response;
+    return apiResponseModel;
   }
 }
