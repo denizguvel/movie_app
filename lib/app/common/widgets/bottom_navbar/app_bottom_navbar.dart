@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:movie_app/app/common/router/app_router.gr.dart';
 
 class AppBottomNavbar extends StatelessWidget {
   final int selectedIndex;
-  final Function(int) onTap;
+  final Function(int, BuildContext) onTap;
 
   const AppBottomNavbar({
     super.key,
@@ -32,13 +34,13 @@ class AppBottomNavbar extends StatelessWidget {
             icon: Icons.home_outlined,
             label: 'Anasayfa',
             selected: selectedIndex == 0,
-            onTap: () => onTap(0),
+            onTap: () => onTap(0, context),
           ),
           _NavButton(
             icon: Icons.person_outline,
             label: 'Profil',
             selected: selectedIndex == 1,
-            onTap: () => onTap(1),
+            onTap: () => onTap(1, context),
           ),
         ],
       ),

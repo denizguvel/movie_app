@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar.dart';
 import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar_bloc.dart';
 import 'package:movie_app/app/common/get_it/get_it.dart';
+import 'package:movie_app/app/common/router/app_router.gr.dart';
 
 @RoutePage()
 class HomeView extends StatelessWidget {
@@ -40,10 +41,13 @@ class HomeView extends StatelessWidget {
           ),
           bottomNavigationBar: AppBottomNavbar(
             selectedIndex: currentIndex,
-            onTap: (index) {
-              getIt<AppBottomNavbarBloc>().add(
-                AppBottomNavbarEvent.values[index],
-              );
+            onTap: (index, ctx) {
+              getIt<AppBottomNavbarBloc>().add(AppBottomNavbarEvent.values[index]);
+              if (index == 0) {
+                ctx.router.replace(const HomeRoute());
+              } else if (index == 1) {
+                ctx.router.replace(const ProfileRoute());
+              }
             },
           ),
         );
