@@ -1,5 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar.dart';
+import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar_bloc.dart';
+import 'package:movie_app/app/common/get_it/get_it.dart';
 
 @RoutePage()
 class HomeView extends StatelessWidget {
@@ -7,16 +11,43 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ana Sayfa'),
-      ),
-      body: const Center(
-        child: Text(
-          'Hoşgeldin!',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
+    return BlocBuilder<AppBottomNavbarBloc, int>(
+      bloc: getIt<AppBottomNavbarBloc>(),
+      builder: (context, currentIndex) {
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/logo/SinFlixLogo.png',
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.black,
+            elevation: 0,
+          ),
+          body: Center(
+            child: Text(
+              currentIndex == 0 ? 'Hoşgeldin!' : 'Profil Sayfası',
+              style: const TextStyle(fontSize: 24),
+            ),
+          ),
+          bottomNavigationBar: AppBottomNavbar(
+            selectedIndex: currentIndex,
+            onTap: (index) {
+              getIt<AppBottomNavbarBloc>().add(
+                AppBottomNavbarEvent.values[index],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -5,6 +5,8 @@ class LoginInputField extends StatelessWidget {
   final String hintTextKey;
   final bool obscureText;
   final bool isPassword;
+  final ValueChanged<String>? onChanged;
+  final Widget? suffixIcon;
 
   const LoginInputField({
     super.key,
@@ -12,6 +14,8 @@ class LoginInputField extends StatelessWidget {
     required this.hintTextKey,
     required this.obscureText,
     this.isPassword = false,
+    this.onChanged,
+    this.suffixIcon,
   });
 
   @override
@@ -19,11 +23,12 @@ class LoginInputField extends StatelessWidget {
     return TextField(
       obscureText: obscureText,
       style: const TextStyle(color: Colors.white),
+      onChanged: onChanged,
       decoration: InputDecoration(
         prefixIcon: Icon(icon, color: Colors.white),
-        suffixIcon: isPassword
+        suffixIcon: suffixIcon ?? (isPassword
             ? const Icon(Icons.visibility_off, color: Colors.white54)
-            : null,
+            : null),
         hintText: hintTextKey,
         hintStyle: const TextStyle(color: Colors.white60),
         filled: true,

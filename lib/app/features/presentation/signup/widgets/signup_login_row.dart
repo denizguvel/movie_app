@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/app/common/constants/app_strings.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:movie_app/app/common/router/app_router.gr.dart';
 
 class SignupLoginRow extends StatelessWidget {
   const SignupLoginRow({super.key});
@@ -27,4 +26,4 @@ class SignupLoginRow extends StatelessWidget {
       ],
     );
   }
-} 
+}

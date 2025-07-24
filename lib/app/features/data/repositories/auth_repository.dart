@@ -1,12 +1,14 @@
 import 'package:movie_app/app/features/data/datasources/local/auth_local_datasource.dart';
+import 'package:movie_app/app/features/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:movie_app/app/features/data/models/auth/login_model.dart';
 import 'package:movie_app/app/features/data/models/auth/signup_model.dart';
 import 'package:movie_app/core/logger/app_logger.dart';
 import 'package:movie_app/core/result/result.dart';
 
-import '../datasources/remote/auth_remote_datasource.dart';
 
 abstract class AuthRepository {
   Future<DataResult<String>> signup({required SignupModel signupModel});
+  Future<DataResult<String>> login({required LoginModel loginModel});
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -43,6 +45,33 @@ class AuthRepositoryImpl implements AuthRepository {
     await _localDatasource.saveToken(apiResponseModel.data!);
     await _localDatasource.login();
     AppLogger.instance.log("$runtimeType register() SUCCESS");
+    return SuccessDataResult(data: apiResponseModel.data!);
+  }
+
+  @override
+  Future<DataResult<String>> login({required LoginModel loginModel}) async {
+    var apiResponseModel = await _remoteDatasource.login(
+      loginModel: loginModel,
+    );
+    if (!apiResponseModel.isSuccess) {
+      AppLogger.instance.error(
+        "$runtimeType login() ${apiResponseModel.error?.message ?? ""} Status code: ${apiResponseModel.error?.statusCode}",
+      );
+      return ErrorDataResult(
+        message:
+            "${apiResponseModel.error?.message ?? ""} ${apiResponseModel.error?.statusCode ?? ""}",
+      );
+    }
+    if (apiResponseModel.data == null) {
+      AppLogger.instance.error("$runtimeType login() Null Data");
+      return ErrorDataResult(
+        message:
+            "${apiResponseModel.error?.message ?? ""} ${apiResponseModel.error?.statusCode ?? ""}",
+      );
+    }
+    await _localDatasource.saveToken(apiResponseModel.data!);
+    await _localDatasource.login();
+    AppLogger.instance.log("$runtimeType login() SUCCESS");
     return SuccessDataResult(data: apiResponseModel.data!);
   }
 }

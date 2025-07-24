@@ -2,10 +2,18 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:movie_app/app/common/router/app_router.dart';
+import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar_bloc.dart';
 import 'package:movie_app/app/features/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:movie_app/app/features/data/datasources/local/auth_local_datasource.dart';
 import 'package:movie_app/app/features/data/repositories/auth_repository.dart';
 import 'package:movie_app/app/features/presentation/signup/bloc/signup_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/app/features/data/models/auth/login_model.dart';
+import 'package:movie_app/app/features/presentation/login/bloc/login_bloc.dart';
+import 'package:movie_app/app/features/presentation/login/bloc/login_event.dart';
+import 'package:movie_app/app/features/presentation/login/bloc/login_state.dart';
+import 'package:movie_app/core/result/result.dart';
+import 'package:flutter/material.dart';
 
 final getIt = GetIt.instance;
 
@@ -17,6 +25,7 @@ final class ServiceLocator {
     _setupDataSource();
     _setupRepository();
     _setupBloc();
+    
   }
 
   /// **Router Dependency**
@@ -49,6 +58,10 @@ final class ServiceLocator {
     getIt.registerFactory<SignupBloc>(
       () => SignupBloc(authRepository: getIt()),
     );
+    getIt.registerFactory<LoginBloc>(
+      () => LoginBloc(authRepository: getIt()),
+    );
+    getIt.registerLazySingleton<AppBottomNavbarBloc>(() => AppBottomNavbarBloc());
   }
 
   /// **Resets dependencies for Test and Debug**
