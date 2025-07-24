@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-
-/// PNG ikonlar için enum
 enum IconEnum {
   arrow('arrow'),
   fav('fav'),
-  heart('heart'),
+  heart('hearts'),
   premium('premium');
 
   const IconEnum(this.value);

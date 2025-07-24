@@ -6,7 +6,7 @@ part 'auth_user_model.g.dart';
 @HiveType(typeId: 0)
 class AuthUserModel {
   @HiveField(0)
-  final int? pk;
+  final String? id;
   @HiveField(1)
   final String? email;
   @HiveField(2)
@@ -15,48 +15,62 @@ class AuthUserModel {
   final String? firstName;
   @HiveField(4)
   final String? lastName;
+  @HiveField(5)
+  final String? name;
+  @HiveField(6)
+  final String? photoUrl;
 
   const AuthUserModel({
-    this.pk,
+    this.id,
     this.email,
     this.username,
     this.firstName,
     this.lastName,
+    this.name,
+    this.photoUrl,
   });
 
   AuthUserModel copyWith({
-    int? pk,
+    String? id,
     String? email,
     String? username,
     String? firstName,
     String? lastName,
+    String? name,
+    String? photoUrl,
   }) {
     return AuthUserModel(
-      pk: pk ?? this.pk,
+      id: id ?? this.id,
       email: email ?? this.email,
       username: username ?? this.username,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
+      name: name ?? this.name,
+      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'pk': pk,
+      'id': id,
       'email': email,
       'username': username,
       'first_name': firstName,
       'last_name': lastName,
+      'name': name,
+      'photoUrl': photoUrl,
     };
   }
 
   factory AuthUserModel.fromMap(Map<String, dynamic> map) {
     return AuthUserModel(
-      pk: map['pk'] != null ? map['pk'] as int : null,
+      id: map['id'] != null ? map['id'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
       username: map['username'] != null ? map['username'] as String : null,
       firstName: map['first_name'] != null ? map['first_name'] as String : null,
       lastName: map['last_name'] != null ? map['last_name'] as String : null,
+      name: map['name'] != null ? map['name'] as String : null,
+      photoUrl: map['photoUrl'] != null ? map['photoUrl'] as String : null,
     );
   }
 }

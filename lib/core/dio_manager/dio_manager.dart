@@ -54,7 +54,7 @@ class DioApiManager {
   /// POST request for any model type
   Future<ApiResponseModel<T>> post<T>(
     String endpoint, {
-    Map<String, dynamic>? data,
+    dynamic data,
     Options? options,
     T Function(dynamic data)? converter,
   }) async {

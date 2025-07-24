@@ -12,12 +12,15 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     print('🔐 AUTH DEBUG: Request path: ${options.path}');
 
     if (options.path.contains('login') || options.path.contains('register')) {
       print(
-          '🔐 AUTH DEBUG: Login/Register endpoint - auth headers will not be added');
+        '🔐 AUTH DEBUG: Login/Register endpoint - auth headers will not be added',
+      );
       handler.next(options);
       csrfTokenBox.clear();
       sessionIdBox.clear();
@@ -39,7 +42,8 @@ class AuthInterceptor extends Interceptor {
 
       if (shouldRefreshToken && !_isRefreshing) {
         print(
-            '🔐 AUTH DEBUG: CSRF token needs refresh, attempting to refresh...');
+          '🔐 AUTH DEBUG: CSRF token needs refresh, attempting to refresh...',
+        );
         await _refreshCsrfToken(options);
         csrfToken = csrfTokenBox.get('csrfToken') ?? '';
         sessionId = sessionIdBox.get('sessionId') ?? '';
@@ -48,15 +52,18 @@ class AuthInterceptor extends Interceptor {
       options.headers['X-CSRFToken'] = csrfToken;
       options.headers['accept'] = 'application/json';
       options.headers['Cookie'] = 'sessionid=$sessionId';
-      options.headers['Authorization'] = 'Token $token';
+      options.headers['Authorization'] = 'Bearer $token';
 
       print('🔐 AUTH DEBUG: Headers added');
       print(
-          '🔐 AUTH DEBUG: Authorization: Token ${token.substring(0, token.length > 10 ? 10 : token.length)}...');
+        '🔐 AUTH DEBUG: Authorization: Token ${token.substring(0, token.length > 10 ? 10 : token.length)}...',
+      );
       print(
-          '🔐 AUTH DEBUG: X-CSRFToken: ${csrfToken.substring(0, csrfToken.length > 10 ? 10 : csrfToken.length)}...');
+        '🔐 AUTH DEBUG: X-CSRFToken: ${csrfToken.substring(0, csrfToken.length > 10 ? 10 : csrfToken.length)}...',
+      );
       print(
-          '🔐 AUTH DEBUG: Cookie: sessionid=${sessionId.substring(0, sessionId.length > 10 ? 10 : sessionId.length)}...');
+        '🔐 AUTH DEBUG: Cookie: sessionid=${sessionId.substring(0, sessionId.length > 10 ? 10 : sessionId.length)}...',
+      );
     } else {
       print('🔐 AUTH DEBUG: Token is empty - headers are not added');
     }
@@ -93,7 +100,8 @@ class AuthInterceptor extends Interceptor {
 
       if (tokenUpdated) {
         print(
-            '🔐 AUTH DEBUG: Token update time recorded: $_lastCsrfTokenUpdate');
+          '🔐 AUTH DEBUG: Token update time recorded: $_lastCsrfTokenUpdate',
+        );
       }
     }
 
@@ -105,7 +113,8 @@ class AuthInterceptor extends Interceptor {
     // 403 hatası CSRF token problemi olabilir
     if (err.response?.statusCode == 403) {
       print(
-          '🔐 AUTH DEBUG: 403 error - CSRF token might be invalid, clearing...');
+        '🔐 AUTH DEBUG: 403 error - CSRF token might be invalid, clearing...',
+      );
       csrfTokenBox.clear();
       _lastCsrfTokenUpdate = null;
     }
@@ -132,7 +141,8 @@ class AuthInterceptor extends Interceptor {
 
     if (timeSinceLastUpdate > _csrfTokenRefreshInterval) {
       print(
-          '🔐 AUTH DEBUG: CSRF token expired (${timeSinceLastUpdate.inMinutes} minutes old)');
+        '🔐 AUTH DEBUG: CSRF token expired (${timeSinceLastUpdate.inMinutes} minutes old)',
+      );
       return true;
     }
 

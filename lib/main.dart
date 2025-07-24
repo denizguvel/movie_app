@@ -6,6 +6,8 @@ import 'package:movie_app/app/common/get_it/get_it.dart';
 import 'package:movie_app/app/common/router/app_router.dart';
 import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar_bloc.dart';
 import 'package:movie_app/app/features/presentation/login/bloc/login_bloc.dart';
+import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
+import 'package:movie_app/app/features/presentation/profile/bloc/profile_event.dart';
 import 'package:movie_app/core/keys/app_keys.dart';
 
 Future<void> main() async {
@@ -22,6 +24,13 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<LoginBloc>()),
         BlocProvider(create: (_) => getIt<AppBottomNavbarBloc>()),
+        BlocProvider(
+          create: (_) {
+            final bloc = getIt<ProfileBloc>();
+            bloc.add(FetchProfileRequested());
+            return bloc;
+          },
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

@@ -17,20 +17,22 @@ class AuthUserModelAdapter extends TypeAdapter<AuthUserModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AuthUserModel(
-      pk: (fields[0] as num?)?.toInt(),
+      id: fields[0] as String?,
       email: fields[1] as String?,
       username: fields[2] as String?,
       firstName: fields[3] as String?,
       lastName: fields[4] as String?,
+      name: fields[5] as String?,
+      photoUrl: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AuthUserModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
-      ..write(obj.pk)
+      ..write(obj.id)
       ..writeByte(1)
       ..write(obj.email)
       ..writeByte(2)
@@ -38,7 +40,11 @@ class AuthUserModelAdapter extends TypeAdapter<AuthUserModel> {
       ..writeByte(3)
       ..write(obj.firstName)
       ..writeByte(4)
-      ..write(obj.lastName);
+      ..write(obj.lastName)
+      ..writeByte(5)
+      ..write(obj.name)
+      ..writeByte(6)
+      ..write(obj.photoUrl);
   }
 
   @override

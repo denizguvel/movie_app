@@ -9,6 +9,7 @@ late Box<String> sessionIdBox;
 late Box<String> tokenBox;
 late Box<bool> isLoginBox;
 late Box<AuthUserModel> userBox;
+late Box<String> profilePhotoBox;
 
 /// init hive
 Future<void> hiveInit() async {
@@ -26,4 +27,5 @@ Future<void> hiveBox() async {
   tokenBox = await Hive.openBox<String>('token');
   isLoginBox = await Hive.openBox<bool>('isLogin');
   userBox = await Hive.openBox<AuthUserModel>('user');
+  profilePhotoBox = await Hive.openBox<String>('profilePhoto');
 }
