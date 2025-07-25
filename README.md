@@ -58,6 +58,8 @@
 - User feedback for error and loading states
 
 ---
+### 9. App Icon
+- Custom app icon added for both Android and iOS platforms
 
 ## 🧠 Tech Stack
 
@@ -65,7 +67,7 @@
 |--------------------|------------------------------------|
 | Flutter            | Mobile app framework               |
 | Dart               | Programming language               |
-| Cubit (Bloc)       | State management                   |
+| Bloc       | State management                   |
 | Dio                | REST API handling                  |
 | Hive + crypto      | Secure local data & token storage  |
 | auto_route         | Type-safe navigation               |
@@ -99,46 +101,20 @@ flutter run
 
 ## 📸 Screenshots
 
-
-### Login Screen
-<p align="center">
-  <img src="assets/screenshots/login.png" width="300" />
-</p>
-
-### Signup Screen
-<p align="center">
-  <img src="assets/screenshots/signup.png" width="300" />
-</p>
-
-### Home Screen
-<p align="center">
-  <img src="assets/screenshots/home.png" width="300" />
-</p>
-
-### Explore Screen
-<p align="center">
-  <img src="assets/screenshots/explore.png" width="300" />
-</p>
-
-### Limited Offer Modal
-<p align="center">
-  <img src="assets/screenshots/offer.png" width="300" />
-</p>
-
-### Profile Screen
-<p align="center">
-  <img src="assets/screenshots/profile.png" width="300" />
-</p>
-
-### Upload Photo Screen
-<p align="center">
-  <img src="assets/screenshots/upload_photo.png" width="300" />
-</p>
-
-### Splash Screen
-<p align="center">
-  <img src="assets/screenshots/splash.png" width="300" />
-</p>
+<table>
+  <tr>
+    <td align="center"><img src="assets/screenshots/login.png" width="200" /></td>
+    <td align="center"><img src="assets/screenshots/signup.png" width="200" /></td>
+    <td align="center"><img src="assets/screenshots/home.png" width="200" /></td>
+    <td align="center"><img src="assets/screenshots/explore.png" width="200" /></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/offer.png" width="200" /></td>
+    <td align="center"><img src="assets/screenshots/profile.png" width="200" /></td>
+    <td align="center"><img src="assets/screenshots/upload_photo.png" width="200" /></td>
+    <td align="center"><img src="assets/screenshots/splash.png" width="200" /></td>
+  </tr>
+</table>
 
 ---
 
