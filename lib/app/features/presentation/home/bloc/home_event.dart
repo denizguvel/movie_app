@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:movie_app/app/features/data/models/movie/movie_model.dart';
 
 abstract class HomeEvent extends Equatable {
   const HomeEvent();
@@ -9,6 +10,19 @@ abstract class HomeEvent extends Equatable {
 
 class LoadMovies extends HomeEvent {
   const LoadMovies();
+}
+
+class LoadMoviesWithData extends HomeEvent {
+  final List<MovieModel> movies;
+  final bool hasMoreMovies;
+
+  const LoadMoviesWithData({
+    required this.movies,
+    required this.hasMoreMovies,
+  });
+
+  @override
+  List<Object?> get props => [movies, hasMoreMovies];
 }
 
 class RefreshMovies extends HomeEvent {

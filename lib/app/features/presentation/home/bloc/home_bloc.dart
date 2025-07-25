@@ -14,6 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : _moviesRepository = moviesRepository,
         super(const HomeInitial()) {
     on<LoadMovies>(_onLoadMovies);
+    on<LoadMoviesWithData>(_onLoadMoviesWithData);
     on<RefreshMovies>(_onRefreshMovies);
     on<LoadMoreMovies>(_onLoadMoreMovies);
     on<ToggleFavorite>(_onToggleFavorite);
@@ -28,6 +29,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final favoriteIds = favResult is SuccessDataResult ? Set<String>.from(favResult.data!) : <String>{};
     
     await _fetchMovies(emit, page: _page, append: false, favoriteIds: favoriteIds);
+  }
+
+  Future<void> _onLoadMoviesWithData(LoadMoviesWithData event, Emitter<HomeState> emit) async {
+    _page = 1;
+    
+    final favResult = await _moviesRepository.getFavoriteMovieIds();
+    final favoriteIds = favResult is SuccessDataResult ? Set<String>.from(favResult.data!) : <String>{};
+    
+    emit(HomeLoaded(
+      movies: event.movies,
+      currentPage: _page,
+      totalPages: 0,
+      hasReachedMax: !event.hasMoreMovies,
+      favoriteIds: favoriteIds,
+    ));
   }
 
   Future<void> _onRefreshMovies(RefreshMovies event, Emitter<HomeState> emit) async {
