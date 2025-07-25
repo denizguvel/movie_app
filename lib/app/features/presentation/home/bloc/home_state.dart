@@ -55,15 +55,17 @@ class HomeLoadingMore extends HomeState {
   final List<MovieModel> movies;
   final int currentPage;
   final int totalPages;
+  final Set<String> favoriteIds;
 
   const HomeLoadingMore({
     required this.movies,
     required this.currentPage,
     required this.totalPages,
+    required this.favoriteIds,
   });
 
   @override
-  List<Object?> get props => [movies, currentPage, totalPages];
+  List<Object?> get props => [movies, currentPage, totalPages, favoriteIds];
 }
 
 class HomeError extends HomeState {

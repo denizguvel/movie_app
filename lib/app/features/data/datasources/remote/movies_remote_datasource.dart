@@ -15,25 +15,24 @@ class MoviesRemoteDatasourceImpl implements MoviesRemoteDatasource {
   final DioApiManager _apiManager = DioApiManager(baseUrl: Config.apiBaseUrl);
 
   @override
-  Future<ApiResponseModel<MovieListResponse>> getMovieList({required int page}) async {
-    print('DEBUG: Movie list request for page: $page');
+  Future<ApiResponseModel<MovieListResponse>> getMovieList({
+    required int page,
+  }) async {
     var apiResponseModel = await _apiManager.get(
       '/movie/list',
       queryParams: {'page': page},
       converter: (data) {
-        print('DEBUG: API Response data: $data');
         return MovieListResponse.fromMap(data);
       },
     );
-    print('DEBUG: API Response success: ${apiResponseModel.isSuccess}');
-    if (!apiResponseModel.isSuccess) {
-      print('DEBUG: API Error: ${apiResponseModel.error?.message}');
-    }
+    if (!apiResponseModel.isSuccess) {}
     return apiResponseModel;
   }
 
   @override
-  Future<ApiResponseModel<bool>> addFavorite({required String favoriteId}) async {
+  Future<ApiResponseModel<bool>> addFavorite({
+    required String favoriteId,
+  }) async {
     var apiResponseModel = await _apiManager.post(
       '/movie/favorite/$favoriteId',
       converter: (data) {
@@ -50,7 +49,6 @@ class MoviesRemoteDatasourceImpl implements MoviesRemoteDatasource {
     var apiResponseModel = await _apiManager.get(
       '/movie/favorites',
       converter: (data) {
-        print('DEBUG: FAVORITES API RESPONSE: $data');
         final movies = data['data'] as List<dynamic>? ?? [];
         return movies.map((e) => e['id'] as String).toList();
       },

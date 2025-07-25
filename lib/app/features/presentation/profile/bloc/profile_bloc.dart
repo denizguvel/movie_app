@@ -38,22 +38,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   void resetProfile() {
     localFavoriteMovies.clear();
-    emit(ProfileInitial());
+    add(FetchProfileRequested());
   }
 
   void initializeProfile() {
-    final user = localDatasource.getUser();
-    final token = localDatasource.getToken();
-    
-    if (token.isEmpty) {
-      emit(ProfileInitial());
-      return;
-    }
-    
-    final userId = user.id ?? '';
-    final photoUrl = localDatasource.getProfilePhotoUrl(userId);
-    final userName = user.name ?? user.firstName ?? user.username ?? AppStrings.user;
-    emit(ProfileLoaded(photoUrl, user: user, userName: userName, userId: userId));
+    add(FetchProfileRequested());
   }
 
   Future<void> _onUploadProfilePhotoRequested(

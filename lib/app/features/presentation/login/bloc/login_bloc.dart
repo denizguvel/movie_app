@@ -8,6 +8,7 @@ import 'package:movie_app/app/common/get_it/get_it.dart';
 import 'package:movie_app/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:movie_app/app/features/presentation/home/bloc/home_event.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
+import 'package:movie_app/app/common/constants/app_strings.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepository;
@@ -32,14 +33,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
       final result = await authRepository.login(loginModel: loginModel);
       if (result is SuccessDataResult<String>) {
-        // Giriş başarılı olduğunda favori filmleri temizle
         getIt<HomeBloc>().add(const ClearFavorites());
         getIt<ProfileBloc>().resetProfile();
         emit(state.copyWith(isSubmitting: false, isSuccess: true));
       } else if (result is ErrorDataResult) {
         emit(state.copyWith(isSubmitting: false, isFailure: true, errorMessage: result.message));
       } else {
-        emit(state.copyWith(isSubmitting: false, isFailure: true, errorMessage: 'Bilinmeyen hata'));
+        emit(state.copyWith(isSubmitting: false, isFailure: true, errorMessage: AppStrings.anErrorOccurred));
       }
     });
   }

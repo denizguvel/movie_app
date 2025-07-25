@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:movie_app/app/common/router/app_router.gr.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_state.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_event.dart';
@@ -56,8 +58,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
               displayId: displayId,
               isUploading: isUploading,
               onAddPhoto: () {
-                // ignore: use_build_context_synchronously
-                Navigator.of(context).pushNamed('/upload-photo');
+                context.router.push(const UploadPhotoRoute());
               },
             );
           },

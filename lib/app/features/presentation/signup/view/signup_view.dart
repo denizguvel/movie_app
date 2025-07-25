@@ -21,15 +21,20 @@ class SignupView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SignupBloc, SignupState>(
-      listenWhen: (previous, current) =>
-          previous.isFailure != current.isFailure ||
-          previous.isSuccess != current.isSuccess,
+      listenWhen:
+          (previous, current) =>
+              previous.isFailure != current.isFailure ||
+              previous.isSuccess != current.isSuccess,
       listener: (context, state) {
         if (state.isSuccess) {
-          context.router.replace(const HomeRoute());
+          context.router.replace(const ExploreRoute());
         } else if (state.isFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage ?? AppStrings.registrationFailed)),
+            SnackBar(
+              content: Text(
+                state.errorMessage ?? AppStrings.registrationFailed,
+              ),
+            ),
           );
         }
       },
@@ -48,21 +53,22 @@ class SignupView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SignupHeader(),
-                        const CustomSizedbox(32),
+                        const CustomSizedbox(40),
                         SignupForm(
                           bloc: bloc,
                           isSubmitting: state.isSubmitting,
                           isSuccess: state.isSuccess,
+                          state: state,
                         ),
-                        const CustomSizedbox(20),
+                        const CustomSizedbox(38),
                         SignupButton(
                           isSubmitting: state.isSubmitting,
                           isSuccess: state.isSuccess,
                           onPressed: () => bloc.add(SignupSubmitted()),
                         ),
-                        const CustomSizedbox(24),
+                        const CustomSizedbox(37),
                         const SignupSocialButtons(),
-                        const CustomSizedbox(24),
+                        const CustomSizedbox(33),
                         const SignupLoginRow(),
                       ],
                     );

@@ -40,12 +40,14 @@ class HomeContent extends StatelessWidget {
 
         if (state is HomeLoaded || state is HomeLoadingMore) {
           final movies = state is HomeLoaded 
-              ? (state as HomeLoaded).movies 
+              ? (state).movies 
               : (state as HomeLoadingMore).movies;
           final hasReachedMax = state is HomeLoaded 
-              ? (state as HomeLoaded).hasReachedMax 
+              ? (state).hasReachedMax 
               : false;
-          final favoriteIds = state is HomeLoaded ? (state as HomeLoaded).favoriteIds : <String>{};
+          final favoriteIds = state is HomeLoaded 
+              ? (state).favoriteIds 
+              : (state as HomeLoadingMore).favoriteIds;
 
           return HomeMovieGrid(
             movies: movies,

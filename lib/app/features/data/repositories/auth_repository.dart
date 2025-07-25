@@ -48,7 +48,6 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     }
     
-    // Önce eski verileri temizle, sonra yeni token'ı kaydet
     await _localDatasource.clearAllData();
     await _localDatasource.saveToken(apiResponseModel.data!);
     await _localDatasource.login();
@@ -78,7 +77,6 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     }
     
-    // Önce eski verileri temizle, sonra yeni token'ı kaydet
     await _localDatasource.clearAllData();
     await _localDatasource.saveToken(apiResponseModel.data!);
     await _localDatasource.login();

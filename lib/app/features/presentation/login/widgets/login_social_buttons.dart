@@ -8,27 +8,35 @@ class LoginSocialButtons extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildSocialButton(Icons.g_mobiledata, () {}),
+        _buildSocialButton('assets/icons/google.png', () {}),
         const SizedBox(width: 16),
-        _buildSocialButton(Icons.apple, () {}),
+        _buildSocialButton('assets/icons/apple.png', () {}),
         const SizedBox(width: 16),
-        _buildSocialButton(Icons.facebook, () {}),
+        _buildSocialButton('assets/icons/facebook.png', () {}),
       ],
     );
   }
 
-  Widget _buildSocialButton(IconData icon, VoidCallback onTap) {
+  Widget _buildSocialButton(String assetPath, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 64,
-        height: 64,
+        width: 60,
+        height: 60,
         decoration: BoxDecoration(
           color: const Color(0xFF232323),
           borderRadius: BorderRadius.circular(18),
         ),
-        child: Icon(icon, color: Colors.white, size: 32),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Image.asset(
+            assetPath,
+            fit: BoxFit.contain,
+            width: 20,
+            height: 20,
+          ),
+        ),
       ),
     );
   }
-} 
+}

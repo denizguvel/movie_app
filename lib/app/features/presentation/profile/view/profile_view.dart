@@ -40,13 +40,26 @@ class ProfileView extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: AppColors.black,
               elevation: 0,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: AppColors.white,
-                  size: 28,
+              leading: GestureDetector(
+                onTap: () {
+                  getIt<AppBottomNavbarBloc>().add(AppBottomNavbarEvent.Home);
+                  context.router.replace(const HomeRoute());
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(8),
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.grey800,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.grey600, width: 1),
+                  ),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: AppColors.white,
+                    size: 20,
+                  ),
                 ),
-                onPressed: () => context.router.pop(),
               ),
               title: Text(
                 AppStrings.profileDetail,

@@ -8,6 +8,8 @@ class SignupState extends Equatable {
   final bool isSuccess;
   final bool isFailure;
   final String? errorMessage;
+  final bool isPasswordVisible;
+  final bool isPasswordAgainVisible;
 
   const SignupState({
     this.email = '',
@@ -17,6 +19,8 @@ class SignupState extends Equatable {
     this.isSuccess = false,
     this.isFailure = false,
     this.errorMessage,
+    this.isPasswordVisible = false,
+    this.isPasswordAgainVisible = false,
   });
 
   SignupState copyWith({
@@ -27,6 +31,8 @@ class SignupState extends Equatable {
     bool? isSuccess,
     bool? isFailure,
     String? errorMessage,
+    bool? isPasswordVisible,
+    bool? isPasswordAgainVisible,
   }) {
     return SignupState(
       email: email ?? this.email,
@@ -36,9 +42,11 @@ class SignupState extends Equatable {
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
       errorMessage: errorMessage ?? this.errorMessage,
+      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+      isPasswordAgainVisible: isPasswordAgainVisible ?? this.isPasswordAgainVisible,
     );
   }
 
   @override
-  List<Object?> get props => [email, name, password, isSubmitting, isSuccess, isFailure, errorMessage];
+  List<Object?> get props => [email, name, password, isSubmitting, isSuccess, isFailure, errorMessage, isPasswordVisible, isPasswordAgainVisible];
 }

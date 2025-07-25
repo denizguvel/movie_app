@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:movie_app/app/features/data/models/movie/movie_model.dart';
 import 'package:movie_app/app/common/constants/app_colors.dart';
 
@@ -36,25 +37,34 @@ class MovieCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           child: Stack(
             children: [
-              // Movie Poster
               AspectRatio(
                 aspectRatio: 2 / 3,
-                child: Image.network(
-                  movie.posterUrl,
+                child: CachedNetworkImage(
+                  imageUrl: movie.posterUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: AppColors.grey800,
-                      child: const Icon(
-                        Icons.movie,
-                        color: AppColors.white54,
-                        size: 50,
-                      ),
-                    );
+                  httpHeaders: const {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Referer': 'https://www.imdb.com/',
                   },
+                  placeholder: (context, url) => Container(
+                    color: AppColors.grey800,
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.red,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: AppColors.grey800,
+                    child: const Icon(
+                      Icons.movie,
+                      color: AppColors.white54,
+                      size: 50,
+                    ),
+                  ),
                 ),
               ),
-              // Gradient overlay
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -69,7 +79,6 @@ class MovieCard extends StatelessWidget {
                   ),
                 ),
               ),
-              // Favorite button
               Positioned(
                 top: 8,
                 right: 8,
@@ -89,7 +98,6 @@ class MovieCard extends StatelessWidget {
                   ),
                 ),
               ),
-              // Movie title
               Positioned(
                 bottom: 0,
                 left: 0,

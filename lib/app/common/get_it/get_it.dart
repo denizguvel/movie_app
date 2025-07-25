@@ -10,6 +10,7 @@ import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.da
 import 'package:movie_app/app/features/presentation/signup/bloc/signup_bloc.dart';
 import 'package:movie_app/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:movie_app/app/features/presentation/login/bloc/login_bloc.dart';
+import 'package:movie_app/app/features/presentation/explore/bloc/explore_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -70,6 +71,9 @@ final class ServiceLocator {
     );
     getIt.registerFactory<HomeBloc>(
       () => HomeBloc(moviesRepository: getIt()),
+    );
+    getIt.registerFactory<ExploreBloc>(
+      () => ExploreBloc(),
     );
   }
 

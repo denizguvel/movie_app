@@ -60,7 +60,6 @@ class HomeMovieGrid extends StatelessWidget {
             return MovieCard(
               movie: movie,
               onTap: () {
-                // TODO: Navigate to movie detail
               },
               onFavoriteTap: () => onToggleFavorite(movie.id),
               isFavorite: isFav,

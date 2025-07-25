@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/app/common/constants/app_colors.dart';
 import 'package:movie_app/app/common/constants/app_strings.dart';
 
 class ProfileLimitedOfferButton extends StatelessWidget {
@@ -11,22 +12,22 @@ class ProfileLimitedOfferButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ElevatedButton.icon(
         onPressed: onPressed,
-        icon: const Icon(
-          Icons.local_offer,
+        icon: Image.asset(
+          'assets/icons/diamond.png',
           color: Colors.white,
-          size: 18,
+          width: 18,
         ),
-        label: Text(AppStrings.limitedOffer),
+        label: Text(
+          AppStrings.limitedOffer,
+          style: const TextStyle(color: Colors.white),
+        ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.primaryRed,
           shape: const StadiumBorder(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           textStyle: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
-} 
+}

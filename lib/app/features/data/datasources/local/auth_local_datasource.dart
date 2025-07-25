@@ -15,6 +15,8 @@ abstract class AuthLocalDatasource {
   Future<void> saveProfilePhotoUrl(String url, String userId);
   String getProfilePhotoUrl(String userId);
   Future<void> clearAllData();
+  bool isTokenValid();
+  Future<void> refreshToken(String newToken);
 }
 
 class AuthLocalDatasourceImpl implements AuthLocalDatasource {
@@ -31,6 +33,7 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
   Future<void> logout() async {
     try {
       await isLoginBox.put('isLogin', false);
+      await _secureDeleteToken();
     } catch (e) {
       AppLogger.instance.error("$runtimeType logout() ${e.toString()}");
     }
@@ -48,17 +51,39 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
   @override
   Future<void> saveToken(String token) async {
     try {
+      if (!_isValidToken(token)) {
+        throw Exception('Invalid token format');
+      }
+
       await tokenBox.put('token', token);
+      await tokenBox.put(
+        'token_timestamp',
+        DateTime.now().millisecondsSinceEpoch.toString(),
+      );
+      AppLogger.instance.log(
+        "$runtimeType saveToken() SUCCESS - Token securely saved",
+      );
     } catch (e) {
       AppLogger.instance.error("$runtimeType saveToken() ${e.toString()}");
+      rethrow;
     }
   }
 
   @override
   String getToken() {
     try {
-      return tokenBox.get('token', defaultValue: '') ?? '';
+      final token = tokenBox.get('token', defaultValue: '') ?? '';
+
+      if (!_isValidToken(token)) {
+        AppLogger.instance.error(
+          "$runtimeType getToken() - Invalid token detected",
+        );
+        return '';
+      }
+
+      return token;
     } catch (e) {
+      AppLogger.instance.error("$runtimeType getToken() ${e.toString()}");
       return '';
     }
   }
@@ -66,7 +91,10 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
   @override
   Future<void> deleteToken() async {
     try {
-      await tokenBox.delete('token');
+      await _secureDeleteToken();
+      AppLogger.instance.log(
+        "$runtimeType deleteToken() SUCCESS - Token securely deleted",
+      );
     } catch (e) {
       AppLogger.instance.error("$runtimeType deleteToken() ${e.toString()}");
     }
@@ -106,16 +134,21 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
     try {
       await profilePhotoBox.put('profilePhotoUrl_$userId', url);
     } catch (e) {
-      AppLogger.instance.error("$runtimeType saveProfilePhotoUrl() "+e.toString());
+      AppLogger.instance.error(
+        "$runtimeType saveProfilePhotoUrl() " + e.toString(),
+      );
     }
   }
 
   @override
   String getProfilePhotoUrl(String userId) {
     try {
-      return profilePhotoBox.get('profilePhotoUrl_$userId', defaultValue: '') ?? '';
+      return profilePhotoBox.get('profilePhotoUrl_$userId', defaultValue: '') ??
+          '';
     } catch (e) {
-      AppLogger.instance.error("$runtimeType getProfilePhotoUrl() "+e.toString());
+      AppLogger.instance.error(
+        "$runtimeType getProfilePhotoUrl() " + e.toString(),
+      );
       return '';
     }
   }
@@ -124,13 +157,78 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
   Future<void> clearAllData() async {
     try {
       await isLoginBox.clear();
-      await tokenBox.clear();
+      await _secureDeleteToken();
       await userBox.clear();
-      // Profil fotoğrafı URL'lerini silme - bunlar kalıcı olmalı
-      // await profilePhotoBox.clear();
       AppLogger.instance.log("$runtimeType clearAllData() SUCCESS");
     } catch (e) {
       AppLogger.instance.error("$runtimeType clearAllData() ${e.toString()}");
+    }
+  }
+
+  @override
+  bool isTokenValid() {
+    try {
+      final token = getToken();
+      if (token.isEmpty) return false;
+
+      if (!_isValidToken(token)) return false;
+
+      final timestampStr =
+          tokenBox.get('token_timestamp', defaultValue: '0') ?? '0';
+      final timestamp = int.tryParse(timestampStr) ?? 0;
+      final tokenAge = DateTime.now().millisecondsSinceEpoch - timestamp;
+      final maxAge = 24 * 60 * 60 * 1000; // 24 saat
+
+      if (tokenAge > maxAge) {
+        AppLogger.instance.error("$runtimeType isTokenValid() - Token expired");
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      AppLogger.instance.error("$runtimeType isTokenValid() ${e.toString()}");
+      return false;
+    }
+  }
+
+  @override
+  Future<void> refreshToken(String newToken) async {
+    try {
+      await saveToken(newToken);
+      AppLogger.instance.log("$runtimeType refreshToken() SUCCESS");
+    } catch (e) {
+      AppLogger.instance.error("$runtimeType refreshToken() ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<void> _secureDeleteToken() async {
+    try {
+      await tokenBox.delete('token');
+      await tokenBox.delete('token_timestamp');
+      await tokenBox.clear();
+    } catch (e) {
+      AppLogger.instance.error(
+        "$runtimeType _secureDeleteToken() ${e.toString()}",
+      );
+    }
+  }
+
+  bool _isValidToken(String token) {
+    if (token.isEmpty) return false;
+
+    final parts = token.split('.');
+    if (parts.length != 3) return false;
+
+    try {
+      for (final part in parts) {
+        if (part.isEmpty) return false;
+        final decoded = Uri.decodeFull(part);
+        if (decoded.isEmpty) return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }

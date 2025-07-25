@@ -21,7 +21,7 @@ class LoginView extends StatelessWidget {
               previous.isSuccess != current.isSuccess,
       listener: (context, state) {
         if (state.isSuccess) {
-          context.router.replace(const HomeRoute());
+          context.router.replace(const ExploreRoute());
         } else if (state.isFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage ?? AppStrings.loginFailed)),

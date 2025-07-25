@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:movie_app/app/common/constants/app_colors.dart';
+import 'package:movie_app/app/common/constants/app_strings.dart';
 import 'package:movie_app/app/common/enum/svg_enum.dart';
 import 'package:movie_app/app/common/widgets/sizedbox/custom_sizedbox.dart';
 
@@ -34,18 +36,18 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'Sınırlı Teklif',
-                      style: TextStyle(
+                    Text(
+                      AppStrings.limitedOfferTitle,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 26,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Jeton paketini seçerek bonus kazanın ve yeni bölümlerin kilidini açın!',
-                      style: TextStyle(color: Colors.white70, fontSize: 15),
+                    Text(
+                      AppStrings.limitedOfferDescription,
+                      style: const TextStyle(color: Colors.white70, fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 13),
@@ -61,9 +63,9 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          const Text(
-                            'Alacağınız Bonuslar',
-                            style: TextStyle(
+                          Text(
+                            AppStrings.bonusesTitle,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -76,7 +78,7 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                               Expanded(
                                 child: _BonusIcon(
                                   icon: IconEnum.premium,
-                                  label: 'Premium Hesap',
+                                  label: AppStrings.premiumAccount,
                                   iconSize: 24,
                                   circleSize: 36,
                                 ),
@@ -84,7 +86,7 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                               Expanded(
                                 child: _BonusIcon(
                                   icon: IconEnum.heart,
-                                  label: 'Daha Fazla Eşleşme',
+                                  label: AppStrings.moreMatches,
                                   iconSize: 24,
                                   circleSize: 36,
                                 ),
@@ -92,7 +94,7 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                               Expanded(
                                 child: _BonusIcon(
                                   icon: IconEnum.arrow,
-                                  label: 'Öne Çıkarma',
+                                  label: AppStrings.promotion,
                                   iconSize: 24,
                                   circleSize: 36,
                                 ),
@@ -100,7 +102,7 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                               Expanded(
                                 child: _BonusIcon(
                                   icon: IconEnum.fav,
-                                  label: 'Daha Fazla Beğeni',
+                                  label: AppStrings.moreLikes,
                                   iconSize: 24,
                                   circleSize: 36,
                                 ),
@@ -111,9 +113,9 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 22),
-                    const Text(
-                      'Kilidi açmak için bir jeton paketi seçin',
-                      style: TextStyle(
+                    Text(
+                      AppStrings.selectTokenPackage,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -173,17 +175,18 @@ class LimitedOfferBottomSheet extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor: AppColors.primaryRed,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 18),
                         ),
-                        child: const Text(
-                          'Tüm Jetonları Gör',
-                          style: TextStyle(
+                        child: Text(
+                          AppStrings.viewAllTokens,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: AppColors.white,
                           ),
                         ),
                       ),
@@ -215,11 +218,11 @@ class _BonusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayLabel =
-        label == 'Öne Çıkarma'
+        label == AppStrings.promotion
             ? 'Öne\nÇıkarma'
-            : label == 'Daha Fazla Eşleşme'
+            : label == AppStrings.moreMatches
             ? 'Daha\nFazla Eşleşme'
-            : label == 'Daha Fazla Beğeni'
+            : label == AppStrings.moreLikes
             ? 'Daha\nFazla Beğeni'
             : label;
     return Column(
@@ -279,16 +282,14 @@ class _JetonCard extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Kart gövdesi
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(20),
               gradient: gradient,
             ),
             child: Container(
-              // Inner glow efekti için overlay
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(28),
                 gradient: RadialGradient(
                   center: Alignment.topCenter,
                   radius: 1.1,
@@ -298,18 +299,18 @@ class _JetonCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 18, // Eskiden 32 idi, küçültüldü
-                  horizontal: 8, // Eskiden 12 idi, küçültüldü
+                  vertical: 18,
+                  horizontal: 8,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: 18), // Eskiden 28 idi, küçültüldü
+                    const SizedBox(height: 18),
                     Text(
                       oldJeton,
                       style: const TextStyle(
                         color: Colors.white54,
-                        fontSize: 15, // Eskiden 18 idi
+                        fontSize: 15,
                         decoration: TextDecoration.lineThrough,
                         fontWeight: FontWeight.w600,
                       ),
@@ -319,37 +320,37 @@ class _JetonCard extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 26, // Eskiden 36 idi
+                        fontSize: 26,
                       ),
                     ),
-                    const Text(
-                      'Jeton',
-                      style: TextStyle(
+                    Text(
+                      AppStrings.token,
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 15, // Eskiden 18 idi
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 14), // Eskiden 24 idi
+                    const SizedBox(height: 14),
                     Divider(
                       color: Colors.white.withOpacity(0.18),
                       thickness: 1,
-                      height: 12, // Eskiden 16 idi
+                      height: 12,
                     ),
-                    const SizedBox(height: 8), // Eskiden 12 idi
+                    const SizedBox(height: 8),
                     Text(
                       price,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16, // Eskiden 22 idi
+                        fontSize: 16,
                       ),
                     ),
-                    const Text(
-                      'Başına haftalık',
-                      style: TextStyle(
+                    Text(
+                      AppStrings.perWeek,
+                      style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 13, // Eskiden 16 idi
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -358,25 +359,24 @@ class _JetonCard extends StatelessWidget {
               ),
             ),
           ),
-          // Üstte dışa taşan etiket
           Positioned(
-            top: -16, // Eskiden -22 idi, daha yakın
+            top: -16,
             left: 0,
             right: 0,
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 14, // Eskiden 18 idi
-                  vertical: 4, // Eskiden 6 idi
+                  horizontal: 14,
+                  vertical: 4,
                 ),
                 decoration: BoxDecoration(
                   gradient:
                       labelColor == Color(0xFFE53935)
                           ? LinearGradient(
                             colors: [
-                              Colors.white.withOpacity(0.7), // dış kenar
-                              Color(0xFFE53935), // orta
-                              Color(0xFF6F060B), // merkez
+                              Colors.white.withOpacity(0.7),
+                              Color(0xFFE53935),
+                              Color(0xFF6F060B),
                             ],
                             stops: [0.0, 0.1, 1.0],
                             begin: Alignment.topCenter,
@@ -401,7 +401,7 @@ class _JetonCard extends StatelessWidget {
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 13, // Eskiden 16 idi
+                    fontSize: 13,
                   ),
                 ),
               ),

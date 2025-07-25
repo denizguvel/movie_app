@@ -23,6 +23,7 @@ dependencies:
   cupertino_icons: ^1.0.8  # iOS tarzı ikonlar
   lottie: ^2.7.0           # Lottie animasyonları için
   flutter_svg: ^2.0.17     # SVG dosyalarını göstermek için
+  cached_network_image: ^3.3.1  # Network image caching ve error handling
 
   # --- Veri & API ---
   dio: ^5.0.0              # HTTP istekleri için popüler paket
@@ -30,6 +31,7 @@ dependencies:
   hive_ce_flutter: ^1.2.0  # Hive için Flutter desteği
   path_provider: ^2.0.0    # Dosya yolu yönetimi
   image_picker: ^1.0.4     # Galeriden veya kameradan fotoğraf seçmek için
+  crypto: ^3.0.3           # Şifreleme ve hash işlemleri için
 
   # --- Routing & Navigation ---
   auto_route: ^10.0.1      # Otomatik sayfa yönlendirme ve router yönetimi
@@ -62,5 +64,6 @@ flutter:
     - assets/logo/
     - assets/svg/
     - assets/icons/
+    - assets/images/
 
 

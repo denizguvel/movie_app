@@ -84,8 +84,6 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       '/user/upload_photo',
       data: formData,
       converter: (data) {
-        print('DEBUG: API response:');
-        print(data);
         return UploadImageResponse.fromMap(data);
       },
     );

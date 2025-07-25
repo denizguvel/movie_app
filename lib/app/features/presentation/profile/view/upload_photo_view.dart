@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_event.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_state.dart';
@@ -46,13 +44,26 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
         appBar: AppBar(
           backgroundColor: AppColors.black,
           elevation: 0,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: AppColors.white,
-              size: 28,
+          leading: GestureDetector(
+            onTap: () => context.router.pop(),
+            child: Container(
+              margin: const EdgeInsets.all(8),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.grey800,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppColors.grey600,
+                  width: 1,
+                ),
+              ),
+              child: const Icon(
+                Icons.arrow_back,
+                color: AppColors.white,
+                size: 20,
+              ),
             ),
-            onPressed: () => context.router.pop(),
           ),
           title: Text(
             AppStrings.profileDetail,
@@ -66,7 +77,7 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const CustomSizedbox(40),
               Text(
@@ -76,36 +87,34 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
               const CustomSizedbox(8),
               Text(
                 AppStrings.selectProfilePhoto,
-                style: const TextStyle(
-                  color: AppColors.white54,
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: AppColors.white54, fontSize: 16),
+                textAlign: TextAlign.center,
               ),
-              const CustomSizedbox(40),
+              const CustomSizedbox(47),
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    context.read<ProfileBloc>().add(PickProfilePhotoRequested());
+                    context.read<ProfileBloc>().add(
+                      PickProfilePhotoRequested(),
+                    );
                   },
                   child: Container(
                     width: 200,
                     height: 200,
                     decoration: BoxDecoration(
                       color: AppColors.grey800,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppColors.grey600,
-                        width: 2,
-                      ),
+                      borderRadius: BorderRadius.circular(31),
+                      border: Border.all(color: AppColors.grey600, width: 2),
                     ),
-                    child: const Icon(
-                      Icons.add,
+                    child: const Image(
+                      image: AssetImage('assets/icons/Plus.png'),
                       color: AppColors.white,
-                      size: 60,
+                      width: 50,
                     ),
                   ),
                 ),
@@ -115,7 +124,9 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<ProfileBloc>().add(PickProfilePhotoRequested());
+                    context.read<ProfileBloc>().add(
+                      PickProfilePhotoRequested(),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.red,
@@ -140,4 +151,4 @@ class _UploadPhotoViewState extends State<UploadPhotoView> {
       ),
     );
   }
-} 
+}

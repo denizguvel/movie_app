@@ -27,4 +27,8 @@ class SignupPasswordChanged extends SignupEvent {
   List<Object?> get props => [password];
 }
 
+class TogglePasswordVisibility extends SignupEvent {}
+
+class TogglePasswordAgainVisibility extends SignupEvent {}
+
 class SignupSubmitted extends SignupEvent {}

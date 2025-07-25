@@ -30,34 +30,30 @@ class LoginViewBody extends StatelessWidget {
         const CustomSizedbox(8),
         Text(
           AppStrings.loginScreenWelcome,
-          style: const TextStyle(color: AppColors.white70),
+          style: const TextStyle(color: AppColors.white),
           textAlign: TextAlign.center,
         ),
-        const CustomSizedbox(32),
+        const CustomSizedbox(40),
         LoginInputField(
-          icon: Icons.email_outlined,
+          iconAssetPath: 'assets/icons/Message.png',
           hintTextKey: AppStrings.email,
           obscureText: false,
           onChanged: (val) => bloc.add(EmailChanged(val)),
         ),
         const CustomSizedbox(16),
         LoginInputField(
-          icon: Icons.lock_outline,
+          iconAssetPath: 'assets/icons/Unlock.png',
           hintTextKey: AppStrings.password,
           obscureText: !state.isPasswordVisible,
           isPassword: true,
           onChanged: (val) => bloc.add(PasswordChanged(val)),
-          suffixIcon: IconButton(
-            icon: Icon(
+          suffixIconAssetPath:
               state.isPasswordVisible
-                  ? Icons.visibility
-                  : Icons.visibility_off,
-              color: AppColors.white54,
-            ),
-            onPressed: () => bloc.add(TogglePasswordVisibility()),
-          ),
+                  ? 'assets/icons/Hide.png'
+                  : 'assets/icons/Hide.png',
+          onSuffixIconTap: () => bloc.add(TogglePasswordVisibility()),
         ),
-        const CustomSizedbox(8),
+        const CustomSizedbox(20),
         Align(
           alignment: Alignment.centerLeft,
           child: TextButton(
@@ -76,37 +72,38 @@ class LoginViewBody extends StatelessWidget {
             ),
           ),
         ),
-        const CustomSizedbox(8),
+        const CustomSizedbox(24),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: state.isSubmitting || state.isSuccess
-                ? null
-                : () => bloc.add(LoginSubmitted()),
+            onPressed:
+                state.isSubmitting || state.isSuccess
+                    ? null
+                    : () => bloc.add(LoginSubmitted()),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.red,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
               ),
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 16),
             ),
-            child: state.isSubmitting
-                ? const CircularProgressIndicator(
-                    color: AppColors.white,
-                  )
-                : Text(
-                    AppStrings.login,
-                    style: const TextStyle(fontSize: 16, color: AppColors.white),
-                  ),
+            child:
+                state.isSubmitting
+                    ? const CircularProgressIndicator(color: AppColors.white)
+                    : Text(
+                      AppStrings.login,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: AppColors.white,
+                      ),
+                    ),
           ),
         ),
-        const CustomSizedbox(24),
+        const CustomSizedbox(37),
         const LoginSocialButtons(),
-        const CustomSizedbox(24),
+        const CustomSizedbox(33),
         const LoginSignupRow(),
       ],
     );
   }
-} 
+}

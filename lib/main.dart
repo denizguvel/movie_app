@@ -9,6 +9,7 @@ import 'package:movie_app/app/features/presentation/login/bloc/login_bloc.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_event.dart';
 import 'package:movie_app/app/features/presentation/home/bloc/home_bloc.dart';
+import 'package:movie_app/app/features/presentation/signup/bloc/signup_bloc.dart';
 import 'package:movie_app/core/keys/app_keys.dart';
 
 Future<void> main() async {
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         BlocProvider(create: (_) => getIt<HomeBloc>()),
+        BlocProvider(create: (_) => getIt<SignupBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
