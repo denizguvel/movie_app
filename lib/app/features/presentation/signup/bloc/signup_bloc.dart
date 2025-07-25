@@ -4,6 +4,10 @@ import 'package:movie_app/core/result/result.dart';
 import 'signup_event.dart';
 import 'signup_state.dart';
 import 'package:movie_app/app/features/data/repositories/auth_repository.dart';
+import 'package:movie_app/app/common/get_it/get_it.dart';
+import 'package:movie_app/app/features/presentation/home/bloc/home_bloc.dart';
+import 'package:movie_app/app/features/presentation/home/bloc/home_event.dart';
+import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   final AuthRepository authRepository;
@@ -31,6 +35,9 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       print('[SIGNUP] Bloc result: $result');
       print('[SIGNUP] Bloc result runtimeType: ${result.runtimeType}');
       if (result is SuccessDataResult<String>) {
+        // Kayıt başarılı olduğunda favori filmleri temizle
+        getIt<HomeBloc>().add(const ClearFavorites());
+        getIt<ProfileBloc>().resetProfile();
         emit(state.copyWith(isSubmitting: false, isSuccess: true));
       } else if (result is ErrorDataResult) {
         print('[SIGNUP] Error: ${result.message}');

@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:movie_app/app/common/get_it/get_it.dart';
 import 'package:movie_app/app/common/router/app_router.gr.dart';
+import 'package:movie_app/app/features/presentation/home/bloc/home_bloc.dart';
+import 'package:movie_app/app/features/presentation/home/bloc/home_event.dart';
+import 'package:movie_app/app/common/constants/app_strings.dart';
+import 'package:movie_app/app/common/widgets/sizedbox/custom_sizedbox.dart';
+import 'package:movie_app/app/common/constants/app_colors.dart';
 
 @RoutePage()
 class SplashView extends StatefulWidget {
@@ -15,6 +21,8 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
+    getIt<HomeBloc>().add(const LoadMovies());
+    
     Future.delayed(const Duration(seconds: 5), () {
       context.router.push(const LoginRoute());
     });
@@ -23,7 +31,7 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,19 +41,19 @@ class _SplashViewState extends State<SplashView> {
               height: 180,
               child: Lottie.asset('assets/lottie/Movie.json'),
             ),
-            const SizedBox(height: 32),
+            const CustomSizedbox(32),
             Text(
-              'Shartflix',
+              AppStrings.shartflix,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 2,
                 shadows: [
                   Shadow(
-                    color: Colors.red.withOpacity(0.7),
+                    color: AppColors.red.withOpacity(0.7),
                     blurRadius: 12,
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),

@@ -14,6 +14,7 @@ abstract class AuthLocalDatasource {
   Future<void> deleteUser();
   Future<void> saveProfilePhotoUrl(String url, String userId);
   String getProfilePhotoUrl(String userId);
+  Future<void> clearAllData();
 }
 
 class AuthLocalDatasourceImpl implements AuthLocalDatasource {
@@ -116,6 +117,20 @@ class AuthLocalDatasourceImpl implements AuthLocalDatasource {
     } catch (e) {
       AppLogger.instance.error("$runtimeType getProfilePhotoUrl() "+e.toString());
       return '';
+    }
+  }
+
+  @override
+  Future<void> clearAllData() async {
+    try {
+      await isLoginBox.clear();
+      await tokenBox.clear();
+      await userBox.clear();
+      // Profil fotoğrafı URL'lerini silme - bunlar kalıcı olmalı
+      // await profilePhotoBox.clear();
+      AppLogger.instance.log("$runtimeType clearAllData() SUCCESS");
+    } catch (e) {
+      AppLogger.instance.error("$runtimeType clearAllData() ${e.toString()}");
     }
   }
 }

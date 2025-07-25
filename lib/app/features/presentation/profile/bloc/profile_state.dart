@@ -1,4 +1,5 @@
 import 'package:movie_app/app/features/data/models/auth/auth_user_model.dart';
+import 'package:movie_app/app/features/data/models/movie/movie_model.dart';
 
 abstract class ProfileState {}
 
@@ -9,8 +10,12 @@ class ProfileLoaded extends ProfileState {
   final AuthUserModel user;
   final String? userName;
   final String? userId;
-  // Diğer profil alanları eklenebilir
   ProfileLoaded(this.photoUrl, {required this.user, this.userName, this.userId});
+}
+
+class ProfileFavoriteMoviesLoaded extends ProfileState {
+  final List<MovieModel> favoriteMovies;
+  ProfileFavoriteMoviesLoaded(this.favoriteMovies);
 }
 
 class ProfilePhotoUploading extends ProfileState {}

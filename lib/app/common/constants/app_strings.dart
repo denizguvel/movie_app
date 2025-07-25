@@ -25,4 +25,26 @@ class AppStrings {
   static const String privacyPolicyBold = 'okudum ve kabul ediyorum.';
   static const String privacyPolicySuffix = '\nBu sözleşmeyi okuyarak devam ediniz lütfen.';
   static const String signupButtonExclamation = 'Kayıt Ol!';
+  
+  // Profile related strings
+  static const String profileDetail = 'Profil Detayı';
+  static const String limitedOffer = 'Sınırlı Teklif';
+  static const String user = 'Kullanıcı';
+  static const String addPhoto = 'Fotoğraf Ekle';
+  static const String myFavoriteMovies = 'Beğendiğim Filmler';
+  static const String noFavoriteMoviesYet = 'Henüz favori filminiz yok.';
+  static const String uploadYourPhotos = 'Fotoğraflarınızı Yükleyin';
+  static const String selectProfilePhoto = 'Profil fotoğrafınızı seçmek için aşağıdaki alana tıklayın';
+  static const String continueButton = 'Devam Et';
+  static const String profilePhotoUpdated = 'Profil fotoğrafı başarıyla güncellendi!';
+  static const String registrationFailed = 'Kayıt başarısız!';
+  static const String loginFailed = 'Giriş başarısız!';
+  static const String anErrorOccurred = 'Bir hata oluştu.';
+  static const String tryAgain = 'Tekrar Dene';
+  static const String unknownState = 'Bilinmeyen durum';
+  static const String profilePage = 'Profil Sayfası';
+  static const String shartflix = 'Shartflix';
+  
+  // Error messages
+  static const String error = 'Hata: ';
 }

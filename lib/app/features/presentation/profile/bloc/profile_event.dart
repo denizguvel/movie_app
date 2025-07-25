@@ -7,4 +7,13 @@ class UploadProfilePhotoRequested extends ProfileEvent {
   UploadProfilePhotoRequested(this.imageFile);
 }
 
+class UploadProfilePhotoFileRequested extends ProfileEvent {
+  final File imageFile;
+  UploadProfilePhotoFileRequested(this.imageFile);
+}
+
 class FetchProfileRequested extends ProfileEvent {}
+
+class FetchFavoriteMoviesRequested extends ProfileEvent {}
+
+class PickProfilePhotoRequested extends ProfileEvent {}

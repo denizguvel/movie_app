@@ -13,6 +13,7 @@ abstract class AuthRepository {
   Future<DataResult<String>> login({required LoginModel loginModel});
   Future<DataResult<AuthUserModel>> getProfile();
   Future<DataResult<UploadImageResponse>> uploadProfileImage({required File imageFile});
+  Future<void> clearAllData();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -46,6 +47,9 @@ class AuthRepositoryImpl implements AuthRepository {
             "${apiResponseModel.error?.message ?? ""} ${apiResponseModel.error?.statusCode ?? ""}",
       );
     }
+    
+    // Önce eski verileri temizle, sonra yeni token'ı kaydet
+    await _localDatasource.clearAllData();
     await _localDatasource.saveToken(apiResponseModel.data!);
     await _localDatasource.login();
     AppLogger.instance.log("$runtimeType register() SUCCESS");
@@ -73,6 +77,9 @@ class AuthRepositoryImpl implements AuthRepository {
             "${apiResponseModel.error?.message ?? ""} ${apiResponseModel.error?.statusCode ?? ""}",
       );
     }
+    
+    // Önce eski verileri temizle, sonra yeni token'ı kaydet
+    await _localDatasource.clearAllData();
     await _localDatasource.saveToken(apiResponseModel.data!);
     await _localDatasource.login();
     AppLogger.instance.log("$runtimeType login() SUCCESS");
@@ -120,5 +127,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return ErrorDataResult(message: 'No data returned');
     }
     return SuccessDataResult(data: apiResponseModel.data!);
+  }
+
+  @override
+  Future<void> clearAllData() async {
+    await _localDatasource.clearAllData();
   }
 }

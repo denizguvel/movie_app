@@ -2,17 +2,14 @@ import 'package:get_it/get_it.dart';
 import 'package:movie_app/app/common/router/app_router.dart';
 import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar_bloc.dart';
 import 'package:movie_app/app/features/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:movie_app/app/features/data/datasources/remote/movies_remote_datasource.dart';
 import 'package:movie_app/app/features/data/datasources/local/auth_local_datasource.dart';
 import 'package:movie_app/app/features/data/repositories/auth_repository.dart';
+import 'package:movie_app/app/features/data/repositories/movies_repository.dart';
 import 'package:movie_app/app/features/presentation/profile/bloc/profile_bloc.dart';
 import 'package:movie_app/app/features/presentation/signup/bloc/signup_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/app/features/data/models/auth/login_model.dart';
+import 'package:movie_app/app/features/presentation/home/bloc/home_bloc.dart';
 import 'package:movie_app/app/features/presentation/login/bloc/login_bloc.dart';
-import 'package:movie_app/app/features/presentation/login/bloc/login_event.dart';
-import 'package:movie_app/app/features/presentation/login/bloc/login_state.dart';
-import 'package:movie_app/core/result/result.dart';
-import 'package:flutter/material.dart';
 
 final getIt = GetIt.instance;
 
@@ -39,6 +36,9 @@ final class ServiceLocator {
     getIt.registerLazySingleton<AuthLocalDatasource>(
       () => AuthLocalDatasourceImpl(),
     );
+    getIt.registerLazySingleton<MoviesRemoteDatasource>(
+      () => MoviesRemoteDatasourceImpl(),
+    );
   }
 
   /// **Repository Dependency**
@@ -47,6 +47,11 @@ final class ServiceLocator {
       () => AuthRepositoryImpl(
         remoteDatasource: getIt(),
         localDatasource: getIt(),
+      ),
+    );
+    getIt.registerLazySingleton<MoviesRepository>(
+      () => MoviesRepositoryImpl(
+        remoteDatasource: getIt(),
       ),
     );
   }
@@ -62,6 +67,9 @@ final class ServiceLocator {
     );
     getIt.registerFactory<ProfileBloc>(
       () => ProfileBloc(authRepository: getIt()),
+    );
+    getIt.registerFactory<HomeBloc>(
+      () => HomeBloc(moviesRepository: getIt()),
     );
   }
 

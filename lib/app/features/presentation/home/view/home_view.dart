@@ -5,6 +5,9 @@ import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar.dar
 import 'package:movie_app/app/common/widgets/bottom_navbar/app_bottom_navbar_bloc.dart';
 import 'package:movie_app/app/common/get_it/get_it.dart';
 import 'package:movie_app/app/common/router/app_router.gr.dart';
+import 'package:movie_app/app/features/presentation/home/widgets/home_app_bar.dart';
+import 'package:movie_app/app/features/presentation/home/widgets/home_view_body.dart';
+import 'package:movie_app/app/common/constants/app_colors.dart';
 
 @RoutePage()
 class HomeView extends StatelessWidget {
@@ -16,29 +19,9 @@ class HomeView extends StatelessWidget {
       bloc: getIt<AppBottomNavbarBloc>(),
       builder: (context, currentIndex) {
         return Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  'assets/logo/SinFlixLogo.png',
-                  height: 100,
-                  fit: BoxFit.contain,
-                ),
-              ],
-            ),
-            centerTitle: true,
-            backgroundColor: Colors.black,
-            elevation: 0,
-          ),
-          body: Center(
-            child: Text(
-              currentIndex == 0 ? 'Hoşgeldin!' : 'Profil Sayfası',
-              style: const TextStyle(fontSize: 24),
-            ),
-          ),
+          appBar: const HomeAppBar(),
+          body: HomeViewBody(currentIndex: currentIndex),
+          backgroundColor: AppColors.black,
           bottomNavigationBar: AppBottomNavbar(
             selectedIndex: currentIndex,
             onTap: (index, ctx) {

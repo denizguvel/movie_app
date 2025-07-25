@@ -15,5 +15,6 @@ final class AppRouter extends RootStackRouter {
     AutoRoute(page: SignupRoute.page),
     AutoRoute(page: HomeRoute.page),
     AutoRoute(page: ProfileRoute.page),
+    AutoRoute(page: UploadPhotoRoute.page),
   ];
 }

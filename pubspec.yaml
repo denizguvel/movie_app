@@ -13,31 +13,41 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # --- State Management ---
+  flutter_bloc: ^9.1.0  # Bloc state management için Flutter entegrasyonu
+  bloc: ^9.0.0          # Bloc state management temel paketi
+  get_it: ^8.0.3        # Bağımlılık enjeksiyonu için servis locator
+  equatable: ^2.0.7     # Karşılaştırma ve eşitlik için
 
-  cupertino_icons: ^1.0.8
-  get_it: ^8.0.3
-  dio: ^5.0.0
-  equatable: ^2.0.7
-  auto_route: ^10.0.1
-  device_info_plus: ^11.5.0
-  hive_ce: ^2.2.1
-  hive_ce_flutter: ^1.2.0
-  path_provider: ^2.0.0
-  flutter_bloc: ^9.1.0
-  bloc: ^9.0.0
-  lottie: ^2.7.0
-  flutter_svg: ^2.0.17
-  image_picker: ^1.0.4
+  # --- UI & Animasyon ---
+  cupertino_icons: ^1.0.8  # iOS tarzı ikonlar
+  lottie: ^2.7.0           # Lottie animasyonları için
+  flutter_svg: ^2.0.17     # SVG dosyalarını göstermek için
+
+  # --- Veri & API ---
+  dio: ^5.0.0              # HTTP istekleri için popüler paket
+  hive_ce: ^2.2.1          # Lokal veritabanı (NoSQL)
+  hive_ce_flutter: ^1.2.0  # Hive için Flutter desteği
+  path_provider: ^2.0.0    # Dosya yolu yönetimi
+  image_picker: ^1.0.4     # Galeriden veya kameradan fotoğraf seçmek için
+
+  # --- Routing & Navigation ---
+  auto_route: ^10.0.1      # Otomatik sayfa yönlendirme ve router yönetimi
+
+  # --- Cihaz & Platform ---
+  device_info_plus: ^11.5.0 # Cihaz bilgisi almak için
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
-  auto_route_generator: ^10.0.1
-  build_runner: ^2.4.15
-  hive_ce_generator: ^1.9.1
-  flutter_launcher_icons: ^0.13.1
+  # --- Geliştirici Araçları ---
+  flutter_lints: ^5.0.0           # Flutter için önerilen linter kuralları
+  auto_route_generator: ^10.0.1   # auto_route için kod üretici
+  build_runner: ^2.4.15           # Kod üretimi için temel araç
+  hive_ce_generator: ^1.9.1       # Hive için kod üretici
+  flutter_launcher_icons: ^0.13.1 # Uygulama ikonlarını otomatik oluşturmak için
 
 flutter_launcher_icons:
   android: true
@@ -45,7 +55,6 @@ flutter_launcher_icons:
   image_path: "assets/logo/SinFlixLogo.png"
 
 flutter:
-
 
   uses-material-design: true
   assets:
