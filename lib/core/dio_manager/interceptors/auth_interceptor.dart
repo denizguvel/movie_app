@@ -4,11 +4,9 @@ import 'package:movie_app/core/storage/hive/hive.dart';
 class AuthInterceptor extends Interceptor {
   AuthInterceptor() : super();
 
-  // CSRF token son güncelleme zamanını takip etmek için
   static DateTime? _lastCsrfTokenUpdate;
   static const Duration _csrfTokenRefreshInterval = Duration(minutes: 15);
-  static bool _isRefreshing =
-      false; // Aynı anda birden fazla refresh önlemek için
+  static bool _isRefreshing = false;
 
   @override
   void onRequest(
@@ -37,7 +35,6 @@ class AuthInterceptor extends Interceptor {
     print('🔐 AUTH DEBUG: Has sessionId: ${sessionId.isNotEmpty}');
 
     if (token.isNotEmpty) {
-      // CSRF token kontrolü ve yenileme
       bool shouldRefreshToken = _shouldRefreshCsrfToken(csrfToken);
 
       if (shouldRefreshToken && !_isRefreshing) {
@@ -110,7 +107,6 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // 403 hatası CSRF token problemi olabilir
     if (err.response?.statusCode == 403) {
       print(
         '🔐 AUTH DEBUG: 403 error - CSRF token might be invalid, clearing...',
@@ -121,21 +117,17 @@ class AuthInterceptor extends Interceptor {
     handler.next(err);
   }
 
-  /// CSRF token'ın yenilenmesi gerekip gerekmediğini kontrol eder
   bool _shouldRefreshCsrfToken(String currentToken) {
-    // Token boşsa kesinlikle yenile
     if (currentToken.isEmpty) {
       print('🔐 AUTH DEBUG: CSRF token is empty');
       return true;
     }
 
-    // Son güncelleme zamanı yoksa yenile
     if (_lastCsrfTokenUpdate == null) {
       print('🔐 AUTH DEBUG: No last update time recorded');
       return true;
     }
 
-    // Belirli bir süre geçtiyse yenile
     final now = DateTime.now();
     final timeSinceLastUpdate = now.difference(_lastCsrfTokenUpdate!);
 
@@ -149,7 +141,6 @@ class AuthInterceptor extends Interceptor {
     return false;
   }
 
-  /// CSRF token'ı yenilemek için farklı endpoint'leri dener
   Future<void> _refreshCsrfToken(RequestOptions originalOptions) async {
     if (_isRefreshing) {
       print('🔐 AUTH DEBUG: Already refreshing, skipping...');
@@ -164,11 +155,10 @@ class AuthInterceptor extends Interceptor {
       final dio = Dio();
       dio.options.baseUrl = originalOptions.baseUrl;
 
-      // Önce hafif bir endpoint dene (varsa)
       final endpoints = [
-        '/accounts/api/who-am-i/', // Hafif endpoint
-        '/auth/profile/', // Auth profile endpoint
-        '/core/api/', // Core API endpoint
+        '/accounts/api/who-am-i/',
+        '/auth/profile/',
+        '/core/api/',
       ];
 
       Response? response;
@@ -186,18 +176,16 @@ class AuthInterceptor extends Interceptor {
             ),
           );
 
-          // Başarılı response alındıysa döngüden çık
           if (response.statusCode == 200) {
             print('🔐 AUTH DEBUG: Successfully got response from: $endpoint');
             break;
           }
         } catch (e) {
           print('🔐 AUTH DEBUG: Failed to get CSRF from $endpoint: $e');
-          continue; // Bir sonraki endpoint'i dene
+          continue;
         }
       }
 
-      // Response'dan CSRF token'ı çıkar
       if (response != null) {
         final cookies = response.headers['set-cookie'];
         if (cookies != null && cookies.isNotEmpty) {
@@ -234,7 +222,6 @@ class AuthInterceptor extends Interceptor {
       }
     } catch (e) {
       print('🔐 AUTH DEBUG: Failed to refresh CSRF token: $e');
-      // Hata durumunda mevcut token'ı temizle ki bir sonraki istekte tekrar denensin
       if (e is DioException && e.response?.statusCode == 401) {
         print('🔐 AUTH DEBUG: 401 error during refresh - clearing tokens');
         csrfTokenBox.clear();
